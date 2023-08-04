@@ -2,23 +2,23 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
-// const socket = io("https://hungry-cyan-turtleneck.cyclic.app");
+const socket = io("https://socket-serve.adaptable.app");
 
 const Index: NextPage = () => {
   const [statusFromSocket, setStatusFromSocket] = useState<boolean>(false);
   const [status, setStatus] = useState<boolean>(false);
 
-  // const onAction = () => {
-  //   setStatus(!status);
-  //   socket.emit("action", { status: !status });
-  // };
+  const onAction = () => {
+    setStatus(!status);
+    socket.emit("action", { status: !status });
+  };
 
-  // useEffect(() => {
-  //   socket.on("receive_action", (data) => {
-  //     setStatusFromSocket(data.status);
-  //     setStatus(data.status);
-  //   });
-  // }, []);
+  useEffect(() => {
+    socket.on("receive_action", (data) => {
+      setStatusFromSocket(data.status);
+      setStatus(data.status);
+    });
+  }, []);
 
   return (
     <>
@@ -35,7 +35,7 @@ const Index: NextPage = () => {
         </div>
         <button
           className="px-4 py-2 text-sm uppercase rounded-md bg-slate-200 hover:bg-slate-100"
-          // onClick={onAction}
+          onClick={onAction}
         >
           Set Maintance
         </button>
@@ -45,18 +45,3 @@ const Index: NextPage = () => {
 };
 
 export default Index;
-
-// export async function getStaticProps() {
-//   // Fetch your data from an API or any data source
-//   const response = await fetch(
-//     "https://hungry-cyan-turtleneck.cyclic.app/api/work"
-//   );
-//   console.log("response", response.json());
-
-//   // Return the data as props
-//   return {
-//     props: {},
-//     // You can also set a revalidation time (in seconds) if you want to enable Incremental Static Regeneration (ISR)
-//     revalidate: 10, // This means the page will be regenerated after 60 seconds if there are new requests
-//   };
-// }
