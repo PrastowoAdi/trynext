@@ -4,7 +4,12 @@ export default class Document extends NextDocument {
   render() {
     return (
       <Html lang="en">
-        <Head></Head>
+        <Head>
+          <script
+            src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"
+            async
+          ></script>
+        </Head>
         <body>
           <Main />
           <NextScript />

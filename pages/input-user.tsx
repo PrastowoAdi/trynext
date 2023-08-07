@@ -14,18 +14,35 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import OneSignal from "react-onesignal";
 
 type Props = {};
 
 const InputUser = (props: Props) => {
   const router = useRouter();
   const [username, setUsername] = useState<string>("");
+  const [initialized, setInitialized] = useState(false);
 
   const onSubmit = useCallback(() => {
     localStorage.setItem("socket.io", JSON.stringify(username));
     router.push("/");
   }, [username, router]);
+
+  useEffect(() => {
+    OneSignal.init({
+      appId: "bdca64d3-d4d8-4901-b757-814e07081223",
+      safari_web_id: "web.onesignal.auto.32358c52-eb5f-4c9c-a5b8-d10e6e7ce454",
+      notifyButton: {
+        enable: true,
+      },
+    }).then(() => {
+      setInitialized(true);
+      OneSignal.showSlidedownPrompt().then(() => {
+        // do other stuff
+      });
+    });
+  }, []);
 
   return (
     <>

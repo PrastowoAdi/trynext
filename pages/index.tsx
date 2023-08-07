@@ -4,6 +4,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+
 const socket = io("https://socket-serve.adaptable.app");
 
 const Index: NextPage = () => {
